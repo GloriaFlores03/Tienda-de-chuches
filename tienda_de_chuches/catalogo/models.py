@@ -59,15 +59,15 @@ class Foto(models.Model):
 
 
 class Carrito(models.Model):
-    Cliente =models.ForeignKey('Cliente', on_delete=models.CASCADE)
+    cliente =models.ForeignKey('Cliente', on_delete=models.CASCADE)
     productos=models.ManyToManyField(Producto,through='ItemCarrito')
 
     def __str__(self):
-        return f"Carrito de {self.Cliente.user.username}"
+        return f"Carrito de {self.cliente.user.username}"
 
 class ItemCarrito(models.Model):
     carrito=models.ForeignKey('Carrito',on_delete=models.CASCADE)
-    producto=models.ForeignKey(Producto,on_delete=models.CASCADE)
+    producto=models.ForeignKey('Producto',on_delete=models.CASCADE)
     cantidad = models.PositiveBigIntegerField(default=1)
 
     def __str__(self):
@@ -105,5 +105,4 @@ class Facturacion(models.Model):
         super().save(*args, **kwargs)
 
     def __str__(self):
-        return f"Facturacion #{self.id} - Cliente: {self.Cliente.user.username}"
-# Create your models here.
+        return f"Facturacion #{self.id} - Cliente: {self.cliente.id_user.username}"# Create your models here.
