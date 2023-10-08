@@ -9,6 +9,7 @@ class Cliente(models.Model):
     direccion = models.CharField(max_length=250)
     ciudad = models.CharField(max_length=250)
     codigo_postal=models.CharField(max_length=250)
+    usuario_premium = models.BooleanField(default=False)
 
 
     class Meta: 
