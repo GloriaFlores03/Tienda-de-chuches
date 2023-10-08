@@ -1,0 +1,18 @@
+
+{% block title %} <title>Subir Fotos de productos</title> {% endblock %}
+
+{% block content %}
+
+<form action="" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    
+    {{form.as_p}}
+
+    <center><input type="submit" value="Subir foto" class="btn btn-info"></input></center>
+</form>
+<br>
+{% if message == 1 %}
+    <p class="text-sucess">La foto se ha subido correctamente</p>
+{% endif %}
+
+{% endblock %}

@@ -14,6 +14,7 @@ class Cliente(models.Model):
 
     class Meta: 
         ordering = ['id_user']
+    
 
     def __str__(self):
         return f"{self.id_user}"
@@ -89,8 +90,9 @@ class Facturacion(models.Model):
     direccion_envio = models.CharField(max_length=300)  # Agrega dirección de envío
     ciudad_envio = models.CharField(max_length=250)     # Agrega ciudad de envío
     total = models.DecimalField(max_digits=10, decimal_places=2)
-    medio_entrega = models.ForeignKey('MedioEntrega', on_delete=models.CASCADE)
     numero_tarjeta = models.CharField(max_length=16)
+    vencimiento_tarjeta = models.CharField(max_length=5)
+    cvv_tarjeta = models.CharField(max_length=4)
 
 
     def calcular_total(self):

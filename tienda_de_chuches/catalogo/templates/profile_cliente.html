@@ -1,0 +1,20 @@
+{% load static %}
+
+{% block title %} 
+    <title> Profile </title>
+    
+{% endblock %}
+{% block content %}
+    <div class="container custom-container">
+        <h1 class="title">Profile</h1>
+        <p>Nombre: {{ user.first_name }}</p>
+        <p>Apellidos: {{ user.last_name }}</p>
+        <p>Email: {{ user.email }}</p>
+        <p>Telefono: {{ registers.telefono }}</p>
+        <p>Direccion: {{ registers.direccion }}</p>
+        <p>Ciudad: {{ registers.ciudad }}</p>
+        <p>Codigo postal: {{ registers.codigo_postal }}</p>
+        <p>Usuario premium: {{ registers.usuario_premium }}</p>
+
+    </div>
+{% endblock %}
