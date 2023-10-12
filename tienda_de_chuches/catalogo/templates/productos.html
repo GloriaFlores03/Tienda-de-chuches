@@ -1,0 +1,22 @@
+{% block title %} <title>Productos japoneses unidades</title> {% endblock %}
+
+{% block content %}
+<h1><u>productos por unidades:</u></h1>
+
+{% if productos_lista %}
+<ul>
+    {%for productos in productos_lista %}
+    <li><a href= "{% url 'productos_detalles' productos.id%}">{{ productos.descripcion }} - {{ productos.sabores }}</a></li>
+
+    {% if productos.foto_set.exists %}
+            <img src="{{ productos.foto_set.first.subir_foto_p.url }}" alt="imagen dulces japoneses" width="300" height="170">
+        {% endif %}
+
+    {% endfor %}
+</ul>
+{% else %}
+    <p> no hay productos</p>
+{% endif %}
+
+
+{% endblock %}

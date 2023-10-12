@@ -5,7 +5,8 @@ from django.contrib.auth import login as auth_login
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required
 from .forms import NewRegisterForm,EditPerfilForm,NewProductoForm,SubirFoto
-from .models import Cliente,Empleado,Producto,Carrito,ItemCarrito,MedioEntrega
+from .models import Cliente,Empleado,Producto,Foto,Carrito,ItemCarrito
+from django.contrib import messages
 
 def index(request):
     return render(request,'index.html')
@@ -193,4 +194,53 @@ def subir_foto_p(request,pk):
 
     return render(request, 'subir_foto_p.html',context)
 
+def productos(request):
+    productos_lista=Producto.objects.all()
+    context={
+        'productos_lista':productos_lista,
+    }
+    return render(request,"productos.html",context=context)
+
+
+def productos_detalles(request,id):
+    productos_detalles=Producto.objects.get(id=id)
+    foto_lista= Foto.objects.filter(id_producto=id)
+
+    if request.method =='POST':
+        request.session['producto unitario'] = productos_detalles.id
+
+    context={
+        'productos_detalles':productos_detalles,
+        'foto_lista':foto_lista,
+    }
+
+    return render(request,"productos_detalles.html",context=context)
+@login_required
+def agregar_al_carrito(request, producto_id):
+    producto=get_object_or_404(Producto,id=producto_id)
+    carrito, creado = Carrito.objects.get_or_create(cliente=request.user.cliente)
+    item, item_creado = ItemCarrito.objects.get_or_create(carrito=carrito, producto=producto)
+    
+    if not item_creado:
+        item.cantidad+=1
+        item.save()
+
+    messages.success(request,f'Se ha añado{producto.nombre_producto} al carrito.')
+
+    return redirect('productos_detalles', id=producto_id)
+
+@login_required
+def ver_carrito(request):
+    carrito=Carrito.objects.get(cliente=request.user.cliente)
+    items=ItemCarrito.objects.filter(carrito=carrito)
+    total = sum(item.producto.costo_producto * item.cantidad for item in items)
+
+
+    context = {
+        'carrito':carrito,
+        'items':items,
+        'total':total,
+    }
+    
+    return render(request,'ver_carrito.html',context=context)
 
