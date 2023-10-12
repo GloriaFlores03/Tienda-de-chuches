@@ -1,0 +1,18 @@
+{% block title %}<title>Carrito de Compras</title>{% endblock %}
+
+{% block content %}
+<h1><u>Carrito de Compras:</u></h1>
+
+{% if items %}
+<ul>
+    {% for item in items %}
+    <li>{{ item.producto.nombre_producto }} - {{ item.cantidad }} x {{ item.producto.costo_producto }}€
+    </li>
+    {% endfor %}
+</ul>
+<p>Total: {{ total }}€</p>
+{% else %}
+<p>El carrito está vacío.</p>
+{% endif %}
+
+{% endblock %}
