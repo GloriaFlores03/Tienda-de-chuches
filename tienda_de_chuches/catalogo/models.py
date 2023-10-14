@@ -76,6 +76,8 @@ class ItemCarrito(models.Model):
         return f"{self.cantidad} x {self.producto.nombre_producto}"
     
 class MedioEntrega(models.Model):
+    cliente = models.ForeignKey('Cliente', on_delete=models.CASCADE)
+
     entrega=models.CharField(max_length=1000)#regoer en tienda o a domicilio
     precio=models.DecimalField(max_digits=6,decimal_places=2)
 
@@ -86,21 +88,23 @@ class MedioEntrega(models.Model):
 class Facturacion(models.Model):
     cliente = models.ForeignKey('Cliente', on_delete=models.CASCADE)
     carrito = models.ForeignKey('Carrito', on_delete=models.CASCADE)
-    fecha = models.DateTimeField(auto_now_add=True)
-    direccion_envio = models.CharField(max_length=300)  # Agrega dirección de envío
-    ciudad_envio = models.CharField(max_length=250)     # Agrega ciudad de envío
-    total = models.DecimalField(max_digits=10, decimal_places=2)
+
     numero_tarjeta = models.CharField(max_length=16)
-    vencimiento_tarjeta = models.CharField(max_length=5)
+    vencimiento_tarjeta = models.DateField()
     cvv_tarjeta = models.CharField(max_length=4)
 
 
     def calcular_total(self):
-        # Calcula el total teniendo en cuenta la cantidad, precio y costo de envío
         total = 0
         for item in self.carrito.itemcarrito_set.all():
             total += item.cantidad * item.producto.costo_producto
-        total += self.medio_entrega.precio  # Agrega costo de envío
+
+        # Busca el medio de entrega del cliente actual
+        medio_entrega = MedioEntrega.objects.get(cliente=self.cliente)
+        
+        # Suma el precio del medio de entrega al total
+        total += medio_entrega.precio
+
         return total
 
     def save(self, *args, **kwargs):
@@ -108,4 +112,7 @@ class Facturacion(models.Model):
         super().save(*args, **kwargs)
 
     def __str__(self):
-        return f"Facturacion #{self.id} - Cliente: {self.cliente.id_user.username}"# Create your models here.
+        return f"Facturacion #{self.id} - Cliente: {self.cliente.id_user.username}"
+
+
+

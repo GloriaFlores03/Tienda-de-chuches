@@ -79,3 +79,21 @@ class SubirFoto(forms.ModelForm):
         fields=['id_producto','subir_foto_p']
 
 
+class FacturacionForm(forms.ModelForm):
+    class Meta:
+        model = Facturacion  # Asocia el formulario al modelo Facturacion
+        fields = ['numero_tarjeta', 'vencimiento_tarjeta', 'cvv_tarjeta']
+        labels = {
+            'numero_tarjeta': 'Número de Tarjeta',
+            'vencimiento_tarjeta': 'Fecha de Vencimiento',
+            'cvv_tarjeta': 'CVV de la Tarjeta'
+        }
+
+    vencimiento_tarjeta = forms.DateField(
+        label='Fecha de Vencimiento',
+        widget=forms.SelectDateWidget()  # Utiliza el widget SelectDateWidget
+    )
+
+
+
+

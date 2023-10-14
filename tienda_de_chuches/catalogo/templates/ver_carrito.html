@@ -3,14 +3,28 @@
 {% block content %}
 <h1><u>Carrito de Compras:</u></h1>
 
+<!-- Agregar el medio de entrega a la página -->
+<p><strong>Medio de Entrega:</strong> {{ medio_entrega.entrega }} - {{ medio_entrega.precio }}€</p>
+
 {% if items %}
 <ul>
     {% for item in items %}
     <li>{{ item.producto.nombre_producto }} - {{ item.cantidad }} x {{ item.producto.costo_producto }}€
+        <form method="post" action="{% url 'eliminar_del_carrito' item.producto.id %}">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger">Eliminar</button>
+        </form>
     </li>
     {% endfor %}
 </ul>
 <p>Total: {{ total }}€</p>
+
+<form method="post" action="{% url 'facturacion' %}">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-success">Continuar a la Facturación</button>
+</form>
+
+
 {% else %}
 <p>El carrito está vacío.</p>
 {% endif %}

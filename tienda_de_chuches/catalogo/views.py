@@ -4,9 +4,10 @@ from django.contrib.auth import login as auth_login
 
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required
-from .forms import NewRegisterForm,EditPerfilForm,NewProductoForm,SubirFoto
-from .models import Cliente,Empleado,Producto,Foto,Carrito,ItemCarrito
+from .forms import NewRegisterForm,EditPerfilForm,NewProductoForm,SubirFoto,FacturacionForm
+from .models import Cliente,Empleado,Producto,Foto,Carrito,ItemCarrito,MedioEntrega,Facturacion
 from django.contrib import messages
+from decimal import Decimal
 
 def index(request):
     return render(request,'index.html')
@@ -231,16 +232,114 @@ def agregar_al_carrito(request, producto_id):
 
 @login_required
 def ver_carrito(request):
-    carrito=Carrito.objects.get(cliente=request.user.cliente)
-    items=ItemCarrito.objects.filter(carrito=carrito)
+    carrito = Carrito.objects.get(cliente=request.user.cliente)
+    items = ItemCarrito.objects.filter(carrito=carrito)
     total = sum(item.producto.costo_producto * item.cantidad for item in items)
 
+    costo_envio, medio_entrega = calcular_costo_envio_y_entrega(total, request.user)
+
+    total += Decimal(costo_envio)
 
     context = {
-        'carrito':carrito,
-        'items':items,
-        'total':total,
+        'carrito': carrito,
+        'items': items,
+        'total': total,
+        'costo_envio': costo_envio,
+        'medio_entrega': medio_entrega,
     }
+
+    return render(request, 'ver_carrito.html', context=context)
+
+
+@login_required
+def eliminar_del_carrito(request,producto_id):
+    carrito = Carrito.objects.get(cliente=request.user.cliente)
+    item = get_object_or_404(ItemCarrito,carrito=carrito,producto_id=producto_id)
+    item.delete()
+    return redirect('ver_carrito')
+
+
+def calcular_costo_envio_y_entrega(total, user):
+    # Intenta obtener el medio de entrega de la base de datos
+    try:
+        medio_entrega = MedioEntrega.objects.get(id=1)
+    except MedioEntrega.DoesNotExist:
+        # Si no existe, crea uno nuevo
+        medio_entrega = MedioEntrega(cliente=user.cliente, entrega="Entrega Normal", precio=3.5)
+        medio_entrega.save()
+
+    costo_envio = 0
+
+    if total > 50:
+        if user.cliente.usuario_premium:
+            costo_envio = 0
+            medio_entrega.entrega = "Entrega Premium"
+            medio_entrega.precio = 0
+        else:
+            costo_envio = 2
+            medio_entrega.entrega = "Entrega Normal"
+            medio_entrega.precio = 2
+    else:
+        costo_envio = 3.5
+        medio_entrega.entrega = "Entrega Normal"
+        medio_entrega.precio = 3.5
+
+    medio_entrega.save()  # Guarda el medio de entrega actualizado en la base de datos
+
+    return costo_envio, medio_entrega
+@login_required
+def facturacion(request):
+    message=0
+    carrito = Carrito.objects.get(cliente=request.user.cliente)
+    medio_entrega, created = MedioEntrega.objects.get_or_create(cliente=request.user.cliente)
     
-    return render(request,'ver_carrito.html',context=context)
+    if request.method == 'POST':
+        form = FacturacionForm(request.POST)
+        if form.is_valid():
+            
+            factura = Facturacion(
+                cliente=request.user.cliente,
+                carrito=carrito,
+                numero_tarjeta=form.cleaned_data['numero_tarjeta'],
+                vencimiento_tarjeta=form.cleaned_data['vencimiento_tarjeta'],
+                cvv_tarjeta=form.cleaned_data['cvv_tarjeta']
+            )
+            total_carrito = sum(item.producto.costo_producto * item.cantidad for item in carrito.itemcarrito_set.all())
+            total_carrito += medio_entrega.precio  # Agrega el costo de envío
+            factura.total = total_carrito  # Asigna el total a la factura
+            factura.save()
+            message=1# Ahora guarda la factura
+            return redirect('productos')
+
+    else:
+        message=2
+        form = FacturacionForm()
+
+
+    items = ItemCarrito.objects.filter(carrito=carrito)
+    total_carrito = sum(item.producto.costo_producto * item.cantidad for item in items)
+
+    context = {
+        'form': form,
+        'carrito': carrito,
+        'medio_entrega': medio_entrega,
+        'total_carrito': total_carrito,
+        'message':message
+    }
+    return render(request, 'facturacion.html', context)
+
+
+def buscar_productos_por_nombre(request):
+    query=request.GET.get('q')
+    if query:
+        resultados = Producto.objects.filter(nombre_producto__icontains=query)
+    else:
+        resultados=[]
+
+    context={
+        'resultados':resultados,
+        'query':query,
+    }
+
+    return render(request, 'buscar_productos_por_nombre.html',context)
 
