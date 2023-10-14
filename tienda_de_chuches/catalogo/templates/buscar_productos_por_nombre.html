@@ -1,0 +1,30 @@
+
+
+{% block content %}
+    <h1>Buscar Productos por Nombre</h1>
+
+    <form method="get" action="{% url 'buscar_productos_por_nombre' %}">
+        <input type="text" name="q" placeholder="Buscar productos" value="{{ query }}">
+        <button type="submit">Buscar</button>
+    </form>
+
+    {% if resultados %}
+        <h2>Productos encontrados:</h2>
+        <ul>
+            
+                {% for producto in resultados %}
+                    <li>
+                        <h3>{{ producto.nombre_producto }}</h3>
+                        <p>{{ producto.descripcion_producto }}</p>
+
+                        <a href="{% url 'productos_detalles' producto.id %}"></a>
+                    </li>
+                    {% if producto.foto_set.exists %}
+                        <img src="{{ producto.foto_set.first.subir_foto_p.url }}" alt="Imagen de {{ producto.nombre_producto }}" width="300" height="170">
+                    {% endif %}
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>No se encontraron resultados para '{{ query }}'.</p>
+        {% endif %}
+{% endblock %}

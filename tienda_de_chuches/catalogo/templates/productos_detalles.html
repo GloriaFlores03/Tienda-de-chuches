@@ -1,70 +1,56 @@
-{% block title %} <title>Detalles del producto</title> {% endblock %}
-    
-    {% block content %}
-    <h1><u>Detalles del producto uniyario</h1></u>
-    {% if productos_detalles %}
-    <ul>
-    
-        <li>Precio del producto: {{ productos_detalles.costo_producto}} € </li>
-        <li>Sabores: {{ productos_detalles.sabores}}</li>
-        <li>Descripcion del producto: {{ productos_detalles.descripcion_producto}}</li>
+{% block content %}
+<h1><u>Detalles del producto unitario</h1></u>
+{% if productos_detalles %}
+<ul>
+    <li>Precio del producto: {{ productos_detalles.costo_producto }} €</li>
+    <li>Sabores: {{ productos_detalles.sabores }}</li>
+    <li>Descripción del producto: {{ productos_detalles.descripcion_producto }}</li>
+</ul>
 
-        
-    </ul>
-    {% else %}
-        <p> No se puede mostrar el producto</p>
-    {% endif %}
-    
- 
+<form method="post" action="{% url 'agregar_al_carrito' producto_id=productos_detalles.id %}">
+  {% csrf_token %}
+  <button type="submit" class="btn btn-primary">Agregar al carrito</button>
+</form>
 
-    <form method="post" action="{% url 'agregar_al_carrito' producto_id=productos_detalles.id %}">
-      {% csrf_token %}
-      <button type="submit" class="btn btn-primary">Agregar al carrito</button>
-    </form>
+{% if messages %}
+<ul class="messages">
+    {% for message in messages %}
+        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
 
-    {% if messages %}
-    <ul class="messages">
-        {% for message in messages %}
-            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-        {% endfor %}
-    </ul>
-    {% endif %}
+<br>
+<br>
 
-    <br>
-    <br>
+<div id="carousel-example-generic" class="carousel slide center-block" data-ride="carousel">
+  <!-- Indicators -->
+  <ol class="carousel-indicators">
+    {% for foto in foto_lista %}
+      <li data-target="#carousel-example-generic" data-slide-to="{{ forloop.counter0 }}" {% if forloop.first %}class="active"{% endif %}></li>
+    {% endfor %}
+  </ol>
 
-
-    <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
-      <!-- Indicators -->
-      <ol class="carousel-indicators">
-        <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
-        <li data-target="#carousel-example-generic" data-slide-to="1"></li>
-        <li data-target="#carousel-example-generic" data-slide-to="2"></li>
-      </ol>
-    
-      <!-- Wrapper for slides -->
-      <div class="carousel-inner" role="listbox"> 
-      {%for foto in foto_lista %} 
-        
-        <div class="item {% if forloop.first %}active{% endif %}">
-          {% load static %}<img src="{% get_media_prefix %} {{ foto.subir_foto_p }}" alt="foto" width="50%" height="50%" style = "bottom:100%;position:relative;margin-left:45%;margin-right:45%;margin-top:3%;">
-        </div>
-        {{ foto.subir_foto_p }}
-      {% endfor %}
+  <!-- Wrapper for slides -->
+  <div class="carousel-inner" role="listbox">
+    {% for foto in foto_lista %}
+      <div class="item{% if forloop.first %} active{% endif %}">
+        <img src="{{ foto.subir_foto_p.url }}" alt="Imagen de {{ productos_detalles.nombre_producto }}" width="300" height="170">
       </div>
-    
-      <!-- Controls -->
-      <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
-        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-        <span class="sr-only">Previous</span>
-      </a>
-      <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
-        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-        <span class="sr-only">Next</span>
-      </a>
-    </div>
-    {% endblock %}
+    {% endfor %}
+  </div>
 
-  
-    
-
+  <!-- Controls -->
+  <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
+    <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+    <span class="sr-only">Previous</span>
+  </a>
+  <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
+    <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+    <span class="sr-only">Next</span>
+  </a>
+</div>
+{% else %}
+<p>No se puede mostrar el producto.</p>
+{% endif %}
+{% endblock %}
