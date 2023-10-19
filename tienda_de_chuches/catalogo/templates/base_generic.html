@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    {% block title %}<title>TIENDA DE CHUCHES JAPONESES LIOSSWEET</title>{% endblock %}
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    {% load static %}
+        <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+
+</head>
+
+<body style="background-color: rgb(202, 245, 221);">
+
+    <header  style="background-color: rgba(255, 255, 255, 0.5);">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <h1>
+                        <i>
+                            TIENDA DE CHUCHES JAPONESES LIOSSWEET
+                        </i>
+                    </h1>
+                </div>
+            </div>
+        </div>
+        <ul class="nav nav-pills" style="padding-left: 1em;">
+            <li class="nav-item">
+                <a class="nav-link active px-2" href="{% url 'productos' %}" aria-current="true" style="margin: 0.5em; color: black; background-color: white;"> productos <i class="fas fa-candy-cane"></i></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active px-2" href="{% url 'ver_carrito' %}" aria-current="page" style="margin: 0.5em; color: black; background-color: white;">ver carrito <i class="fas fa-shopping-cart"></i></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active px-2" href="{% url 'register' %}" aria-current="page" style="margin: 0.5em; color: black; background-color: white;">Registrar <i class="fas fa-user-plus"></i></a>
+            </li>
+            <li class="nav-item">
+                <form method="get" action="{% url 'buscar_productos_por_nombre' %}">
+                    <input type="text" name="q" placeholder="Buscar productos" value="{{ query }}">
+                    <button type="submit">Buscar</button>
+                </form>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active px-2" href="{% url 'login' %}" aria-current="page" style="margin: 0.5em; color: black; background-color: white;">Login <i class="fas fa-user"></i></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active px-2" href="{% url 'profile_cliente' %}" aria-current="page" style="margin: 0.5em; color: black; background-color: white;">Perfil <i class="fas fa-user"></i></a>
+            </li>
+            <li class="nav-item ml-auto">
+                <a class="nav-link active px-2" href="{% url 'index' %}" aria-current="page" style="margin: 0.5em; color: black; background-color: white;">Volver <i class="fas fa-home"></i></a>
+            </li>
+        </ul>
+    </header>
+
+    
+    <main>
+      
+        <div class="container-fluid mt-3">
+            <div class="row">
+                <div class="col-sm-12">
+                    {% block content %}{% endblock %}
+                </div>
+            </div>
+        </div>
+      
+    </main>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <footer style="position: fixed; bottom: 0; width: 100%; z-index: 1; background-color: rgba(255, 255, 255, 0.5);">
+
+        <div class="container-fluid" >
+            <div class="row">
+                <ul class="nav justify-content-center border-bottom pb-3 mb-3">
+                    <li class="nav-item">
+                        <a class="nav-link px-2 text-muted" href="" style="color: black; background-color: rgba(255, 255, 255, 0.5);">Contacto</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link px-2 text-muted" href="{% url 'register' %}" style="color: black; background-color: rgba(255, 255, 255, 0.5);">Registrarse</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link px-2 text-muted" href="{% url 'index' %}" style="color: black; background-color: rgba(255, 255, 255, 0.5);">Pagina Principal</a>
+                    </li>
+                </ul>
+                <p class="text-center text-muted" style="color: black; background-color: rgba(255, 255, 255, 0.5);">© 2023 Tienda de chuches japoneses</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

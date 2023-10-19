@@ -23,8 +23,7 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('catalogo/',include('catalogo.urls')),
-    path('',RedirectView.as_view(url='catalogo/')),
-    path('accounts/',include('django.contrib.auth.urls')),]
+    path('',RedirectView.as_view(url='catalogo/')),]
 
 if settings.DEBUG:
     urlpatterns +=static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)

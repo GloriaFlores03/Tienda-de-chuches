@@ -6,6 +6,9 @@ from django.core.exceptions import ValidationError
 from django.contrib.auth.forms import UserCreationForm
 from .models import Foto,Facturacion
 class NewRegisterForm(UserCreationForm):
+    username = forms.CharField(label='Username', max_length=250, 
+                    widget=forms.TextInput(attrs={'class': "form-control", 'placeholder': 'Username'}))
+
     first_name = forms.CharField(label='Nombre', max_length=250, 
                     widget=forms.TextInput(attrs={'class': "form-control", 'placeholder': 'Nombre'}))
     

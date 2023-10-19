@@ -1,11 +1,17 @@
-{% block title %} <title>Carrito de Compras</title> {% endblock %}
+{% extends "base_generic.html" %}
+
+{% block title %}
+    <title>Agregar al Carrito</title>
+{% endblock %}
 
 {% block content %}
-<h1><u>Carrito de Compras:</u></h1>
+<h1><u>Agregar al Carrito:</u></h1>
 
 <form method="post" action="{% url 'agregar_al_carrito' producto_id=productos_detalles.id %}">
     {% csrf_token %}
     <input type="number" name="cantidad" value="1" min="1">
     <button type="submit" class="btn btn-primary">Agregar al carrito</button>
 </form>
+
+</div>
 {% endblock %}

@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import User
+from django.contrib.auth import logout
 from django.contrib.auth import login as auth_login
 
 from django.contrib.auth.forms import AuthenticationForm
@@ -343,3 +344,8 @@ def buscar_productos_por_nombre(request):
 
     return render(request, 'buscar_productos_por_nombre.html',context)
 
+
+def custom_logout(request):
+
+    logout=(request)
+    return redirect('index')

@@ -1,48 +1,57 @@
-{% load static %}
+{% extends "base_generic.html" %}
 
-{% block title %} 
-    <title> Login </title>
-
+{% block title %}
+    <title>Login</title>
 {% endblock %}
 
-<form method="post">
-    {% csrf_token %}
-
-    <div class="form-group">
-        <label for="{{ form.username.id_for_label }}">Username:</label>
-        <div class="input-group">
-            <div class="input-group-prepend">
-                <span class="input-group-text">
-                    <i class="fa fa-user"></i>
-                </span>
-            </div>
-            {{ form.username }}
-        </div>
-    </div>
-
-    <div class="form-group">
-        <label for="{{ form.password.id_for_label }}">Password:</label>
-        <div class="input-group">
-            <div class="input-group-prepend">
-                <span class="input-group-text">
-                    <i class="fa fa-lock"></i>
-                </span>
-            </div>
-            {{ form.password }}
-        </div>
-    </div>
-
-    <button type="submit" class="btn btn-primary" style="background-color: rgb(046, 139, 087);">
-        <i class="fa fa-sign-in-alt"></i> Login
-    </button>
-
-    {% if form.errors %}
-        <p class="text-danger">
-            Your username and password didn't match. Please try again.
-        </p>
-    {% endif %}
-
-</form>
-
+{% block content %}
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
 <br>
 <br>
+<div class="form-container"> <!-- Agrega el contenedor para la cajita -->
+    <center><h1><u>Login user:</u></h1></center>
+    <br>
+    <br>
+    <form method="post">
+        {% csrf_token %}
+
+        <div class="form-group">
+            <label for="{{ form.username.id_for_label }}">Username:</label>
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">
+                        <i class="fa fa-user"></i>
+                    </span>
+                </div>
+                {{ form.username }}
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="{{ form.password.id_for_label }}">Password:</label>
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">
+                        <i class="fa fa-lock"></i>
+                    </span>
+                </div>
+                {{ form.password }}
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary" style="background-color: rgb(46, 139, 87);">
+            <i class="fa fa-sign-in-alt"></i> Login
+        </button>
+
+        {% if form.errors %}
+            <p class="text-danger">
+                Your username and password didn't match. Please try again.
+            </p>
+        {% endif %}
+
+    </form>
+</div> <!-- Cierra el contenedor de la cajita -->
+<br>
+<br>
+{% endblock %}

@@ -1,32 +1,41 @@
-{% block title %}<title>Carrito de Compras</title>{% endblock %}
+{% extends "base_generic.html" %}
+
+{% block title %}
+    <title>Carrito de Compras</title>
+{% endblock %}
 
 {% block content %}
-<h1><u>Carrito de Compras:</u></h1>
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
+<br>
+<br>
+<div class="form-container"> <!-- Agrega el contenedor para la cajita -->
+    <center><h1><u>Carrito de Compras:</u></h1></center>
 
-<!-- Agregar el medio de entrega a la página -->
-<p><strong>Medio de Entrega:</strong> {{ medio_entrega.entrega }} - {{ medio_entrega.precio }}€</p>
+    <!-- Agregar el medio de entrega a la página -->
+    <p><strong>Medio de Entrega:</strong> {{ medio_entrega.entrega }} - {{ medio_entrega.precio }}€</p>
 
-{% if items %}
-<ul>
-    {% for item in items %}
-    <li>{{ item.producto.nombre_producto }} - {{ item.cantidad }} x {{ item.producto.costo_producto }}€
-        <form method="post" action="{% url 'eliminar_del_carrito' item.producto.id %}">
-            {% csrf_token %}
-            <button type="submit" class="btn btn-danger">Eliminar</button>
-        </form>
-    </li>
-    {% endfor %}
-</ul>
-<p>Total: {{ total }}€</p>
+    {% if items %}
+    <ul>
+        {% for item in items %}
+        <li>{{ item.producto.nombre_producto }} - {{ item.cantidad }} x {{ item.producto.costo_producto }}€
+            <form method="post" action="{% url 'eliminar_del_carrito' item.producto.id %}">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger">Eliminar</button>
+            </form>
+        </li>
+        {% endfor %}
+    </ul>
+    <p>Total: {{ total }}€</p>
 
-<form method="post" action="{% url 'facturacion' %}">
-    {% csrf_token %}
-    <button type="submit" class="btn btn-success">Continuar a la Facturación</button>
-</form>
+    <form method="post" action="{% url 'facturacion' %}">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-success">Continuar a la Facturación</button>
+    </form>
 
-
-{% else %}
-<p>El carrito está vacío.</p>
-{% endif %}
+    {% else %}
+    <p>El carrito está vacío.</p>
+    {% endif %}
+</div> <!-- Cierra el contenedor de la cajita -->
 
 {% endblock %}
