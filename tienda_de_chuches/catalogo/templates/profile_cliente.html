@@ -1,20 +1,29 @@
-{% load static %}
+{% extends "base_generic.html" %}
 
-{% block title %} 
-    <title> Profile </title>
-    
+{% block title %}
+    <title>Perfil de Cliente</title>
 {% endblock %}
-{% block content %}
-    <div class="container custom-container">
-        <h1 class="title">Profile</h1>
-        <p>Nombre: {{ user.first_name }}</p>
-        <p>Apellidos: {{ user.last_name }}</p>
-        <p>Email: {{ user.email }}</p>
-        <p>Telefono: {{ registers.telefono }}</p>
-        <p>Direccion: {{ registers.direccion }}</p>
-        <p>Ciudad: {{ registers.ciudad }}</p>
-        <p>Codigo postal: {{ registers.codigo_postal }}</p>
-        <p>Usuario premium: {{ registers.usuario_premium }}</p>
 
-    </div>
+{% block content %}
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
+<br>
+<br>
+<div class="form-container"> <!-- Agrega el contenedor para la cajita -->
+    <h1><u>Perfil de Cliente:</u></h1>
+    <a href="{% url 'edit_profile_cliente' %}" class="btn btn-primary">Edit Profile</a>
+    <a href="{% url 'custom_logout' %}" class="btn-logout">Logout</a>
+
+    <br>
+    <br>
+    <p>Nombre: {{ user.first_name }}</p>
+    <p>Apellidos: {{ user.last_name }}</p>
+    <p>Email: {{ user.email }}</p>
+    <p>Teléfono: {{ registers.telefono }}</p>
+    <p>Dirección: {{ registers.direccion }}</p>
+    <p>Ciudad: {{ registers.ciudad }}</p>
+    <p>Código Postal: {{ registers.codigo_postal }}</p>
+    <p>Usuario Premium: {{ registers.usuario_premium }}</p>
+</div> <!-- Cierra el contenedor de la cajita -->
+
 {% endblock %}

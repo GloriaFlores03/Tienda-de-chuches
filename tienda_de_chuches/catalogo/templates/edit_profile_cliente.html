@@ -1,23 +1,32 @@
+{% extends "base_generic.html" %}
 
 {% block title %} <title> Editar Perfil </title>{% endblock %}
 {% block content %}
 {% load static %}
-</h1>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
 
-
-<form action="" method="post">
-    {% csrf_token %}
-    
-    {{form}}
-    <br>
-    <button type="submit" class="btn btn-primary" style="background-color: rgb(046, 139, 087);">
-        <i class="fas fa-user-edit"></i> Editar perfil
-    </button>
-
-</form>
 <br>
-{% if message == 1 %}
-    <p class="text-sucess"> Has editado tu perfil...</p>
-{% endif %}
+<br>
+<div class="form-container"> 
+    <form action="" method="post">
+        {% csrf_token %}
+        
+        {{form}}
+        <br>
+        <button type="submit" class="btn btn-primary" style="background-color: rgb(046, 139, 087);">
+            <i class="fas fa-user-edit"></i> Editar perfil
+        </button>
 
+    </form>
+    <br>
+    {% if message == 1 %}
+        <p class="text-sucess"> Has editado tu perfil...</p>
+    {% endif %}
+
+    <a href="{% url 'profile_cliente' %}" class="btn btn-primary">Volver a perfil</a>
+
+</div>
+<br>
+<br>
+<br>
 {% endblock %}

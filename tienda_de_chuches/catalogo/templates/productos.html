@@ -1,22 +1,43 @@
-{% block title %} <title>Productos japoneses unidades</title> {% endblock %}
+{% extends "base_generic.html" %}
+
+{% block title %}
+    <title>Productos japoneses unidades</title>
+{% endblock %}
 
 {% block content %}
-<h1><u>productos por unidades:</u></h1>
+{% load static %}
 
-{% if productos_lista %}
-<ul>
-    {%for productos in productos_lista %}
-    <li><a href= "{% url 'productos_detalles' productos.id%}">{{ productos.descripcion }} - {{ productos.sabores }}</a></li>
+<link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
+<br>
+<br>
+<div class="form-container"
+    <div class="form-cajita">
+        <center></cernter><h1><u>Productos por unidades:</u></h1></center>
 
-    {% if productos.foto_set.exists %}
-            <img src="{{ productos.foto_set.first.subir_foto_p.url }}" alt="imagen dulces japoneses" width="300" height="170">
-        {% endif %}
+        {% if productos_lista %}
+        <div class="row">
+            {% for productos in productos_lista %}
+                <div class="col-md-4 product-item">
+                    {% if productos.foto_set.exists %}
+                        <img src="{{ productos.foto_set.first.subir_foto_p.url }}" alt="imagen dulces japoneses" width="300" height="170">
+                    {% endif %}
+                    <a href="{% url 'productos_detalles' productos.id %}" class="btn btn-custom-pink">{{ productos.descripcion }} - {{ productos.sabores }}</a>
+        </div>
 
-    {% endfor %}
-</ul>
-{% else %}
-    <p> no hay productos</p>
-{% endif %}
+        {% if forloop.counter|divisibleby:2 %}  <!-- Cierra la fila y abre una nueva después de cada tercer producto -->
+            </div><div class="row">
+                {% endif %}
+                {% endfor %}
+            </div>
+        {% else %}
+            <p>No hay productos</p>
+    {% endif %}
 
+    </div>
+<br>
+<br>   
+<br>
+<br> 
+</div>
 
 {% endblock %}

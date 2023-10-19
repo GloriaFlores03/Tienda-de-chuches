@@ -1,35 +1,41 @@
+{% extends "base_generic.html" %}
+
 {% block title %}
     <title>Pantalla principal TIENDA DE CHUCHES </title>
 {% endblock %}
 
-{% block head %}
-{% load static %}
-{% endblock %}
 
 {% block content %}
+{% load static %}
 
-<div class="col-md-6 custom-image-container" style="position: relative;">
-  <div class="h-100 p-5 border rounded-3">
-      <p></p>
-      <img src="https://www.japonshop.com/med/img/productos/prd-bombon-chocolate-im-doraemon-unidad-japonshop.webp" style="width: 30%;">
-     <u><h2><b style="text-shadow: 3px 3px 3px rgb(255, 255, 255);">Dulces japoneses por unidades</b></h2></u>
-    <a href="" class="btn btn-primary custom-btn" style="background-color: rgb(046, 139, 087);">Alquilar <i class="fas fa-building"></i></a>
-
-  </div>
+<link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
+<br>
+<br>
+<div class="form-container">
+    <div class="col-md-6 custom-image-container">
+      <div class="h-100 p-5 border rounded-3">
+          <p></p>
+          <img src="{% static 'images/presentacion.png' %}" style="width: 80%;">
+       
+      </div>
+    </div>
+    <br>
 </div>
 
-<div class="col-md-6 custom-image-container">
-  <div class="h-100 p-5 border rounded-3">
-    <p></p>
-    <img src="hhttps://www.japonshop.com/med/img/productos/prd-pack-snickers-japonshop.webp" class="custom-img-class">
-    <u><h2><b style="text-shadow: 3px 3px 3px rgb(255, 255, 255);">Dulces japoneses surtidos</b></u></h2>
-    <a href="" class='btn btn-primary' style="background-color: rgb(046, 139, 087);">Comprar  <i class="fas fa-home"></i></a>
-  </div>
-</div>    
+
+<div class="form-container">
+    <h2 style="text-shadow: 3px 3px 3px rgb(255, 255, 255);">Deseamos dar al cliente las mejores golosinas y variedad de dulces, acercarles a la cultura japonesa. Sorprenderles por su multitud de sabores que le entusiasmaran.
+    Tenemos una gran variedad de productos de buena calidad de origen japones de alta calidad, al precio mas asequible del mercado.
+    Para que tu y los tuyos podáis disfrutar en casa o con amigos los aromas y sabores de Japon.</h2>
+    
+    <a href="{% url 'productos' %}" class="btn btn-custom-pink">Ver productos</a>
 <br>
-{% if perms.catalog.create_inmueble %}
-  <a href="" class="btn btn-info">Nuevo Inmueble</a>
-  {% endif %}
+<br>
+<br>
+<br>
+<br>
+</div>
+<br>
 <br>
 <br>
 {% endblock %}
