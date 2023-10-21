@@ -21,7 +21,9 @@
                     {% if productos.foto_set.exists %}
                         <img src="{{ productos.foto_set.first.subir_foto_p.url }}" alt="imagen dulces japoneses" width="300" height="170">
                     {% endif %}
-                    <a href="{% url 'productos_detalles' productos.id %}" class="btn btn-custom-pink">{{ productos.descripcion }} - {{ productos.sabores }}</a>
+                    <br>
+                    <br>
+                    <a href="{% url 'productos_detalles' productos.id %}" class="btn btn-custom-pink">{{ productos.nombre_producto }}</a>
         </div>
 
         {% if forloop.counter|divisibleby:2 %}  <!-- Cierra la fila y abre una nueva después de cada tercer producto -->

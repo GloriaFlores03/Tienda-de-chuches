@@ -25,22 +25,26 @@
 
     <p>Total del Carrito: {{ total_carrito }}€</p>
     <p>Medio de Entrega: {{ medio_entrega.entrega }} - Costo: {{ medio_entrega.precio }}€</p>
-
+    
+    <h3>Datos bancarios:</h3>
     <form method="post" action="{% url 'facturacion' %}">
         {% csrf_token %}
         <!-- Campos de información de facturación -->
-        <label for="{{ form.numero_tarjeta.id_for_label }}">Número de Tarjeta:</label>
+        <label for="{{ form.numero_tarjeta.id_for_label }}" class="btn btn-primary">Número de Tarjeta:</label>
         {{ form.numero_tarjeta }}
-        
-        <label for="{{ form.vencimiento_tarjeta.id_for_label }}">Vencimiento de la Tarjeta:</label>
+        <br>
+        <br>
+        <label for="{{ form.vencimiento_tarjeta.id_for_label }}" class="btn btn-primary">Vencimiento de la Tarjeta:</label>
         {{ form.vencimiento_tarjeta.as_widget }}
-        
-        <label for="{{ form.cvv_tarjeta.id_for_label }}">CVV de la Tarjeta:</label>
+        <br>
+        <br>
+        <label for="{{ form.cvv_tarjeta.id_for_label }}" class="btn btn-primary">CVV de la Tarjeta:</label>
         {{ form.cvv_tarjeta }}
         
         <!-- Otros campos del formulario aquí -->
-
-        <button type="submit">Procesar Facturación</button>
+        <br>
+        <br>
+        <center><button type="submit" class="btn btn-primary">Procesar Facturación</button></center>
     </form>
 
     {% if message == 1 %}
@@ -48,7 +52,11 @@
     {% endif %}
 
     </div>
+<br>
+<br>
+<br>
+<br>
+
 </div>
-<br>
-<br>
+
 {% endblock %}

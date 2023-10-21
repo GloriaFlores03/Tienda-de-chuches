@@ -346,6 +346,9 @@ def buscar_productos_por_nombre(request):
 
 
 def custom_logout(request):
-
-    logout=(request)
+    logout(request)
     return redirect('index')
+
+def auto_logout(request):
+    logout(request)
+    return redirect('login')
