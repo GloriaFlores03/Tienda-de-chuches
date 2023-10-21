@@ -1,7 +1,7 @@
 from django.urls import path
 from . import views
 from django.contrib.auth import views as auth_views
-
+from .views import auto_logout
 
 
 
@@ -23,7 +23,7 @@ urlpatterns = [
     path('facturacion/',views.facturacion,name='facturacion'),
     path('buscar_productos_por_nombre/',views.buscar_productos_por_nombre,name='buscar_productos_por_nombre'),
     path('custom_logout/', views.custom_logout, name='custom_logout'),
-
+    path('auto_logout/', auto_logout, name='auto_logout'),
 
     
 

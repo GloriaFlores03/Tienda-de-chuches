@@ -37,7 +37,7 @@ class NewRegisterForm(UserCreationForm):
                         widget=forms.TextInput(attrs={'class':"form-control",'placeholder':'Codigo postal'}))
 
     usuario_premium = forms.BooleanField(label='usuario premium',required=False,
-                        widget=forms.CheckboxInput(attrs={'class':"form-control",'placeholder':'name'}))
+                        widget=forms.CheckboxInput(attrs={'class':"form-control",'placeholder':'Usuario premium'}))
 
 class EditPerfilForm(forms.Form):
     first_name=forms.CharField(label='Nombre',max_length=250,
