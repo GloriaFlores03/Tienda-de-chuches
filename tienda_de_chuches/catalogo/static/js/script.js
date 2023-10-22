@@ -4,7 +4,7 @@ function rotateImage(element) {
 
 
 let idleTimer;
-    //const idleTime = 180000; // 2 minutos en milisegundos (120000)
+    const idleTime = 120000;
 
     function resetTimer() {
         clearTimeout(idleTimer);

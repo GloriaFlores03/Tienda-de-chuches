@@ -77,9 +77,8 @@ class ItemCarrito(models.Model):
     
 class MedioEntrega(models.Model):
     cliente = models.ForeignKey('Cliente', on_delete=models.CASCADE)
-
-    entrega=models.CharField(max_length=1000)#regoer en tienda o a domicilio
-    precio=models.DecimalField(max_digits=6,decimal_places=2)
+    entrega=models.CharField(max_length=1000)
+    precio=models.DecimalField(max_digits=6,decimal_places=2,blank=True, null=True)
 
     def __str__(self):
         return self.entrega

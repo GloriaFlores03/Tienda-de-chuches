@@ -2,6 +2,8 @@
 
 {% block title %}
     <title>Buscar Productos por Nombre</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
 {% endblock %}
 
 {% block content %}
@@ -11,39 +13,40 @@
 <br>
 <br>
 <div class="form-container">
-<center><h1>Buscar Productos por Nombre</h1></center>
+    <div class="form-cajita">
+        <center><h1>Buscar Productos por Nombre</h1></center>
 
-<form method="get" action="{% url 'buscar_productos_por_nombre' %}">
-    <input type="text" name="q" placeholder="Buscar productos" value="{{ query }}">
-    <button type="submit">Buscar</button>
-</form>
+        <form method="get" action="{% url 'buscar_productos_por_nombre' %}">
+            <input type="text" name="q" placeholder="Buscar productos" value="{{ query }}">
+            <button type="submit" class="btn btn-custom-pink">Buscar</button>
+        </form>
 
-{% if resultados %}
-    <h2>Productos encontrados:</h2>
-    <ul>
-        {% for producto in resultados %}
-            <li>
-                <h3>{{ producto.nombre_producto }}</h3>
-                <p>{{ producto.descripcion_producto }}</p>
-                <a href="{% url 'productos_detalles' producto.id %}" class="btn btn-primary">Ver detalles</a>
-                <br>
-            </li>
-            <br>
-            {% if producto.foto_set.exists %}
-                <img src="{{ producto.foto_set.first.subir_foto_p.url }}" alt="Imagen de {{ producto.nombre_producto }}" width="300" height="170">
-            {% endif %}
-        {% endfor %}
+        {% if resultados %}
+            <h2>Productos encontrados:</h2>
+            <ul>
+                {% for producto in resultados %}
+                    <li>
+                        <h3>{{ producto.nombre_producto }}</h3>
+                        <p>{{ producto.descripcion_producto }}</p>
+                        <a href="{% url 'productos_detalles' producto.id %}" class="btn btn-primary">Ver detalles</a>
+                        <br>
+                    </li>
+                    <br>
+                    {% if producto.foto_set.exists %}
+                        <img src="{{ producto.foto_set.first.subir_foto_p.url }}" alt="Imagen de {{ producto.nombre_producto }}" width="300" height="170" class="product-img">
+                    {% endif %}
+                {% endfor %}
 
-    </ul>
-{% else %}
-    <p>No se encontraron resultados para '{{ query }}'.</p>
-{% endif %}
+            </ul>
+        {% else %}
+            <p>No se encontraron resultados para '{{ query }}'.</p>
+        {% endif %}
 
-</div>
-<br>
-<br>
-<br>
-<br>
-</div>
-
+    </div>
+    
+    </div>
+    <br>
+    <br>
+    <br>
+    <br>
 {% endblock %}

@@ -7,50 +7,54 @@
 {% block content %}
 {% load static %}
 
-
 <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
 <script src="{% static 'js/script.js' %}"></script>
 <br>
 <br>
 <div class="form-container">
 
-<center><h1><u>Detalles del producto unitario</h1></u></center>
-{% if productos_detalles %}
-<ul>
-    <li>Nombre del producto: {{ productos_detalles.nombre_producto }}</li>
-    <li>Precio del producto: {{ productos_detalles.costo_producto }} €</li>
-    <li>Sabores: {{ productos_detalles.sabores }}</li>
-    <li>Descripción del producto: {{ productos_detalles.descripcion_producto }}</li>
-</ul>
+    <center><h1><u>Detalles del producto unitario</u></h1></center>
 
-<form method="post" action="{% url 'agregar_al_carrito' producto_id=productos_detalles.id %}">
-      {% csrf_token %}
-      <button type="submit" class="btn btn-custom-pink">Agregar al carrito</button>
-    </form>
-
-    {% if messages %}
-        <ul class="messages">
-            {% for message in messages %}
-                <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-            {% endfor %}
+    {% if productos_detalles %}
+        <ul>
+            <li>Nombre del producto: {{ productos_detalles.nombre_producto }}</li>
+            <li>Precio del producto: {{ productos_detalles.costo_producto }} €</li>
+            <li>Sabores: {{ productos_detalles.sabores }}</li>
+            <li>Descripción del producto: {{ productos_detalles.descripcion_producto }}</li>
         </ul>
-    {% endif %}
 
-    <br>
-    <br>
+        {% if user.is_authenticated %}
+            <form method="post" action="{% url 'agregar_al_carrito' producto_id=productos_detalles.id %}">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-custom-pink">Agregar al carrito</button>
+            </form>
+        {% else %}
+            <p>Para agregar al carrito, primero <a href="{% url 'login' %}">inicia sesión</a>.</p>
+        {% endif %}
 
-    <div id="image-container">
-        <div class="image-wrapper">
-            {% for foto in foto_lista %}
-                <div class="image-with-transition">
-                    <img src="{{ foto.subir_foto_p.url }}" alt="Imagen de {{ productos_detalles.nombre_producto }}">
-                </div>
-            {% endfor %}
+        {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+
+        <br>
+        <br>
+
+        <div id="image-container">
+            <div class="image-wrapper">
+                {% for foto in foto_lista %}
+                    <div class="image-with-transition">
+                        <img src="{{ foto.subir_foto_p.url }}" alt="Imagen de {{ productos_detalles.nombre_producto }}">
+                    </div>
+                {% endfor %}
+            </div>
         </div>
-    </div>
-{% endif %}
-<br>
-<br>
+    {% endif %}
+    <br>
+    <br>
 </div>
 <br>
 <br>
