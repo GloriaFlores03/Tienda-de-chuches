@@ -11,6 +11,7 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     {% load static %}
         <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+        <link rel="icon" type="image/png" href="{% static 'images/presentacion.png' %}" sizes="48x48">
         <script src="{% static 'js/script.js' %}"></script>
 
 
@@ -22,7 +23,7 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-12">
-                    <h1>
+                    <h1 class="header-title">
                         <i>
                             TIENDA DE CHUCHES JAPONESES LIOSSWEET
                         </i>
@@ -32,10 +33,14 @@
         </div>
         <ul class="nav nav-pills" style="padding-left: 1em;">
             <li class="nav-item">
-                <a class="nav-link active px-2" href="{% url 'productos' %}" aria-current="true" style="margin: 0.5em; color: black; background-color: white;"> productos <i class="fas fa-candy-cane"></i></a>
+                <a class="nav-link active px-2" href="{% url 'productos' %}" aria-current="true" style="margin: 0.5em; color: black; background-color: white;"> Productos <i class="fas fa-candy-cane"></i></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link active px-2" href="{% url 'ver_carrito' %}" aria-current="page" style="margin: 0.5em; color: black; background-color: white;">ver carrito <i class="fas fa-shopping-cart"></i></a>
+                {% if user.is_authenticated %}
+                    <a class="nav-link active px-2" href="{% url 'ver_carrito' %}" aria-current="page" style="margin: 0.5em; color: black; background-color: white;">Ver carrito <i class="fas fa-shopping-cart"></i></a>
+                {% else %}
+                    <a class="nav-link active px-2" href="{% url 'login' %}" aria-current="page" style="margin: 0.5em; color: black; background-color: white;">Ver carrito <i class="fas fa-user"></i></a>
+                {% endif %}
             </li>
             <li class="nav-item">
                 <a class="nav-link active px-2" href="{% url 'register' %}" aria-current="page" style="margin: 0.5em; color: black; background-color: white;">Registrar <i class="fas fa-user-plus"></i></a>
@@ -43,14 +48,18 @@
             <li class="nav-item">
                 <form method="get" action="{% url 'buscar_productos_por_nombre' %}">
                     <input type="text" name="q" placeholder="Buscar productos" value="{{ query }}">
-                    <button type="submit">Buscar</button>
+                    <button type="submit" class="btn btn-custom-pink">Buscar</button>
                 </form>
             </li>
             <li class="nav-item">
                 <a class="nav-link active px-2" href="{% url 'login' %}" aria-current="page" style="margin: 0.5em; color: black; background-color: white;">Login <i class="fas fa-user"></i></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link active px-2" href="{% url 'profile_cliente' %}" aria-current="page" style="margin: 0.5em; color: black; background-color: white;">Perfil <i class="fas fa-user"></i></a>
+                {% if user.is_authenticated %}
+                    <a class="nav-link active px-2" href="{% url 'profile_cliente' %}" aria-current="page" style="margin: 0.5em; color: black; background-color: white;">Perfil <i class="fas fa-user"></i></a>
+                {% else %}
+                    <a class="nav-link active px-2" href="{% url 'login' %}" aria-current="page" style="margin: 0.5em; color: black; background-color: white;">Perfil <i class="fas fa-user"></i></a>
+                {% endif %}
             </li>
             <li class="nav-item ml-auto">
                 <a class="nav-link active px-2" href="{% url 'index' %}" aria-current="page" style="margin: 0.5em; color: black; background-color: white;">Volver <i class="fas fa-home"></i></a>

@@ -36,7 +36,7 @@ class NewRegisterForm(UserCreationForm):
     codigo_postal = forms.CharField(label='Codigo postal',max_length=250,
                         widget=forms.TextInput(attrs={'class':"form-control",'placeholder':'Codigo postal'}))
 
-    usuario_premium = forms.BooleanField(label='usuario premium',required=False,
+    usuario_premium = forms.BooleanField(label='¿Quieres ser usuario premium? ',required=False,
                         widget=forms.CheckboxInput(attrs={'class':"form-control",'placeholder':'Usuario premium'}))
 
 class EditPerfilForm(forms.Form):

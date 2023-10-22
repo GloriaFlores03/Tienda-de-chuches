@@ -2,6 +2,8 @@
 
 {% block title %}
     <title>Productos japoneses unidades</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
 {% endblock %}
 
 {% block content %}
@@ -19,14 +21,14 @@
             {% for productos in productos_lista %}
                 <div class="col-md-4 product-item">
                     {% if productos.foto_set.exists %}
-                        <img src="{{ productos.foto_set.first.subir_foto_p.url }}" alt="imagen dulces japoneses" width="300" height="170">
+                        <img src="{{ productos.foto_set.first.subir_foto_p.url }}" alt="imagen dulces japoneses" width="300" height="170" class="product-img">
                     {% endif %}
                     <br>
                     <br>
                     <a href="{% url 'productos_detalles' productos.id %}" class="btn btn-custom-pink">{{ productos.nombre_producto }}</a>
         </div>
 
-        {% if forloop.counter|divisibleby:2 %}  <!-- Cierra la fila y abre una nueva después de cada tercer producto -->
+        {% if forloop.counter|divisibleby:2 %} 
             </div><div class="row">
                 {% endif %}
                 {% endfor %}

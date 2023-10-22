@@ -3,6 +3,7 @@
 {% block title %}
     <title>Facturación</title>
 {% endblock %}
+
 {% block content %}
 {% load static %}
 <br>
@@ -19,13 +20,24 @@
     <h3>Elementos del Carrito:</h3>
     <ul>
         {% for item in carrito.itemcarrito_set.all %}
-        <li>{{ item.producto.nombre_producto }} - Cantidad: {{ item.cantidad }}</li>
+            <li>{{ item.producto.nombre_producto }} - Cantidad: {{ item.cantidad }}</li>
         {% endfor %}
     </ul>
 
-    <p>Total del Carrito: {{ total_carrito }}€</p>
-    <p>Medio de Entrega: {{ medio_entrega.entrega }} - Costo: {{ medio_entrega.precio }}€</p>
-    
+    <p>Total del Carrito (incluyendo envío): {{ total_carrito }}€</p>
+
+    {% if total_carrito > 50 %}
+        {% if request.user.cliente.usuario_premium %}
+            <p><strong>¡Entrega Premium en 2 días!</strong></p>
+        {% else %}
+            <p><strong>Entrega en 3 días</strong></p>
+        {% endif %}
+    {% else %}
+        <p><strong>Entrega en 5 días</strong></p>
+    {% endif %}
+
+    <p><strong>Medio de Entrega:</strong> {{ medio_entrega.entrega }} - Costo: {{ medio_entrega.precio }}€</p>
+
     <h3>Datos bancarios:</h3>
     <form method="post" action="{% url 'facturacion' %}">
         {% csrf_token %}
@@ -51,12 +63,10 @@
         <p class="text-success">Facturación realizada con éxito</p>
     {% endif %}
 
-    </div>
-<br>
-<br>
-<br>
-<br>
-
 </div>
+<br>
+<br>
+<br>
+<br>
 
 {% endblock %}

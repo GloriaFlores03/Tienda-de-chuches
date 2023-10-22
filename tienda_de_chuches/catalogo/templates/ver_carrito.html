@@ -12,13 +12,23 @@
 <div class="form-container"> <!-- Agrega el contenedor para la cajita -->
     <center><h1><u>Carrito de Compras:</u></h1></center>
 
-    <!-- Agregar el medio de entrega a la página -->
+    <!-- Agregar el mensaje de entrega a la página -->
+    {% if total > 50 %}
+        {% if request.user.cliente.usuario_premium %}
+            <p><strong>¡Entrega Premium en 2 días!</strong></p>
+        {% else %}
+            <p><strong>Entrega en 3 días</strong></p>
+        {% endif %}
+    {% else %}
+        <p><strong>Entrega en 5 días</strong></p>
+    {% endif %}
+
     <p><strong>Medio de Entrega:</strong> {{ medio_entrega.entrega }} - {{ medio_entrega.precio }}€</p>
 
     {% if items %}
     <ul>
         {% for item in items %}
-        <li>{{ item.producto.nombre_producto }} - {{ item.cantidad }} x {{ item.producto.costo_producto }}€
+        <li>{{ item.producto.nombre_producto }} - {{ item.cantidad }} x {{ item.producto.costo_producto }} €
             <form method="post" action="{% url 'eliminar_del_carrito' item.producto.id %}">
                 {% csrf_token %}
                 <button type="submit" class="btn btn-danger">Eliminar</button>
@@ -37,7 +47,7 @@
     <p>El carrito está vacío.</p>
     {% endif %}
     
-</div> <!-- Cierra el contenedor de la cajita -->
+</div> 
 <br>
 <br>
 <br>

@@ -25,6 +25,7 @@ body {
     justify-content: space-around;
     list-style: none; 
     padding: 0;
+    padding-right: 30px;
 }
 .product-item {
     flex: 0 0 calc(33.3333% - 20px); 
@@ -96,3 +97,35 @@ body {
     padding: 10px;
 }
 
+.product-img {
+    border-radius: 10%;
+    border: 2px solid white;
+    margin: 0 auto;
+    padding: 10px;
+    position: relative;
+    z-index: 1;
+}
+
+.header-title {
+    font-family: 'Pacifico', sans-serif;
+    font-size: 2.5em; 
+    color: #e6119f; 
+    text-shadow: 3px 3px 3px rgba(0, 0, 0, 0.8); 
+    font-weight: bold;
+    
+}
+
+@media (max-width: 768px) {
+    .form-cajita {
+        width: 100%; 
+    }
+
+    .product-item {
+        flex: 0 0 calc(50% - 20px); 
+        margin: 10px; 
+    }
+
+    .form-container {
+        width: 80%; 
+    }
+}
