@@ -24,7 +24,6 @@
         {% endfor %}
     </ul>
 
-    <p>Total del Carrito (incluyendo envío): {{ total_carrito }}€</p>
 
     {% if total_carrito > 50 %}
         {% if request.user.cliente.usuario_premium %}
@@ -37,6 +36,7 @@
     {% endif %}
 
     <p><strong>Medio de Entrega:</strong> {{ medio_entrega.entrega }} - Costo: {{ medio_entrega.precio }}€</p>
+    <p><strong>Total del Carrito</strong> (incluyendo envío): {{ total_carrito }}€</p>
 
     <h3>Datos bancarios:</h3>
     <form method="post" action="{% url 'facturacion' %}">
