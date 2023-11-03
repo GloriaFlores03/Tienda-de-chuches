@@ -4,22 +4,38 @@
 <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
 
 {% block title %} 
-    <title> Registro </title>
+    <title>Registro</title>
 {% endblock %}
 
 {% block content %}
+    {% if message == 1 %}
+        <div class="alert alert-success text-center">
+            <strong>Hemos recibido su solicitud</strong>
+        </div>
+    {% endif %}
+
     <br>
     <div class="form-container">
         <h1 class="title">Registro</h1>
         <form action="" method="post" class="form">
             {% csrf_token %}
+            
             {% for field in form %}
                 <div class="form-group">
                     <label for="{{ field.id_for_label }}">
                         {{ field.label_tag }} 
+                       
                         {% if field.field.required %}<span class="required">*</span>{% endif %}
                     </label>
                     {{ field }}
+                    {% if field.errors %}
+                        {% for error in field.errors %}
+                            <p class="text-danger">{{ error }}</p>
+                        {% endfor %}
+                    {% endif %}
+                    {% if field.name == 'password1' %}
+                        <small class="form-text text-muted">{{ field.help_text|safe }}</small>
+                    {% endif %}
                 </div>
             {% endfor %}
             <div class="submit-button">
@@ -28,10 +44,6 @@
                 </button>
             </div>
         </form>
-
-        {% if message == 1 %}
-            <p class="text-success">Hemos recibido su solicitud</p>
-        {% endif %}
     </div>
     <br>
     <br>

@@ -1,44 +1,97 @@
 from django import forms
-#from creditcard.forms import CardNumberField, CardExpiryField, SecurityCodeField
-from django.core.exceptions import ValidationError
-
-
 from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.password_validation import validate_password
+from django.core.exceptions import ValidationError
 from .models import Foto,Facturacion
+
+
 class NewRegisterForm(UserCreationForm):
-    username = forms.CharField(label='Username', max_length=250, 
-                    widget=forms.TextInput(attrs={'class': "form-control", 'placeholder': 'Username'}))
+    username = forms.CharField(
+        label='Username', 
+        max_length=250, 
+        widget=forms.TextInput(attrs={'class': "form-control", 'placeholder': 'Username'}),
+        help_text="Este campo es obligatorio."
+    )
 
-    first_name = forms.CharField(label='Nombre', max_length=250, 
-                    widget=forms.TextInput(attrs={'class': "form-control", 'placeholder': 'Nombre'}))
+    first_name = forms.CharField(
+        label='Nombre', 
+        max_length=250, 
+        widget=forms.TextInput(attrs={'class': "form-control", 'placeholder': 'Nombre'}),
+        help_text="Este campo es obligatorio."
+    )
     
-    last_name = forms.CharField(label='Apellidos', max_length=250, 
-                    widget=forms.TextInput(attrs={'class': "form-control", 'placeholder': 'Apellido'}))
+    last_name = forms.CharField(
+        label='Apellidos', 
+        max_length=250, 
+        widget=forms.TextInput(attrs={'class': "form-control", 'placeholder': 'Apellido'}),
+        help_text="Este campo es obligatorio."
+    )
     
-    email = forms.EmailField(label='Email', max_length=250, 
-                    widget=forms.TextInput(attrs={'class': "form-control", 'placeholder': 'Email'}))
+    email = forms.EmailField(
+        label='Email', 
+        max_length=250, 
+        widget=forms.TextInput(attrs={'class': "form-control", 'placeholder': 'Email'}),
+        help_text="Este campo es obligatorio."
+    )
     
-    telefono = forms.CharField(label='Telefono', max_length=15,
-                    widget=forms.TextInput(attrs={'class': "form-control", 'placeholder': 'Telefono'}))
+    telefono = forms.CharField(
+        label='Telefono', 
+        max_length=15,
+        widget=forms.TextInput(attrs={'class': "form-control", 'placeholder': 'Telefono'}),
+        help_text="Este campo es obligatorio."
+    )
     
-    password1 = forms.CharField(label='password',
-                    widget=forms.PasswordInput(attrs={'class': "form-control", 'placeholder': 'Contraseña'}))
+    password1 = forms.CharField(
+        label='Contraseña',
+        widget=forms.PasswordInput(attrs={'class': "form-control", 'placeholder': 'Contraseña'}),
+        help_text="La contraseña debe tener al menos 8 caracteres y contener al menos una letra mayúscula, una letra minúscula, y un número."
+    )
     
-    password2 = forms.CharField(label='repeat password', 
-                    widget=forms.PasswordInput(attrs={'class': "form-control", 'placeholder': 'repite la contraseña'}))
+    password2 = forms.CharField(
+        label='Repetir contraseña', 
+        widget=forms.PasswordInput(attrs={'class': "form-control", 'placeholder': 'Repetir contraseña'}),
+        help_text="Repite la contraseña."
+    )
     
-    direccion= forms.CharField(label='Direccion',max_length=250,
-                        widget=forms.TextInput(attrs={'class':"form-control",'placeholder':'Direccion'}))
+    direccion = forms.CharField(
+        label='Direccion',
+        max_length=250,
+        widget=forms.TextInput(attrs={'class':"form-control",'placeholder':'Direccion'}),
+        help_text="Este campo es obligatorio."
+    )
     
-    ciudad = forms.CharField(label='Ciudad',max_length=250,
-                        widget=forms.TextInput(attrs={'class':"form-control",'placeholder':'Ciudad'}))
+    ciudad = forms.CharField(
+        label='Ciudad',
+        max_length=250,
+        widget=forms.TextInput(attrs={'class':"form-control",'placeholder':'Ciudad'}),
+        help_text="Este campo es obligatorio."
+    )
     
-    codigo_postal = forms.CharField(label='Codigo postal',max_length=250,
-                        widget=forms.TextInput(attrs={'class':"form-control",'placeholder':'Codigo postal'}))
+    codigo_postal = forms.CharField(
+        label='Codigo postal',
+        max_length=250,
+        widget=forms.TextInput(attrs={'class':"form-control",'placeholder':'Codigo postal'}),
+        help_text="Este campo es obligatorio."
+    )
 
-    usuario_premium = forms.BooleanField(label='¿Quieres ser usuario premium? ',required=False,
-                        widget=forms.CheckboxInput(attrs={'class':"form-control",'placeholder':'Usuario premium'}))
+    usuario_premium = forms.BooleanField(
+        label='¿Quieres ser usuario premium? ',
+        required=False,
+        widget=forms.CheckboxInput(attrs={'class':"form-control",'placeholder':'Usuario premium'})
+    )
 
+
+    def clean_password1(self):
+        password1 = self.cleaned_data.get("password1")
+        validate_password(password1)  
+        return password1
+
+    def clean_password2(self):
+        password1 = self.cleaned_data.get("password1")
+        password2 = self.cleaned_data.get("password2")
+        if password1 and password2 and password1 != password2:
+            raise forms.ValidationError("Las contraseñas no coinciden.")
+        return password2
 class EditPerfilForm(forms.Form):
     first_name=forms.CharField(label='Nombre',max_length=250,
                         widget=forms.TextInput(attrs={'class':"form-control",'placeholder':'nombre'}))

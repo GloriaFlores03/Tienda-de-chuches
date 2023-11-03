@@ -15,7 +15,7 @@ def index(request):
 
 def register(request):
     message = 0
-    if request.method =='POST':
+    if request.method == 'POST':
         form = NewRegisterForm(request.POST)
         if form.is_valid():
             try:
@@ -23,14 +23,15 @@ def register(request):
                 user.set_password(form.cleaned_data['password1'])
                 user.save()
 
-                registers=Cliente.objects.create(
+                registers = Cliente.objects.create(
                     id_user=user,
                     telefono=form.cleaned_data['telefono'],
                     direccion=form.cleaned_data['direccion'],
                     ciudad=form.cleaned_data['ciudad'],
                     codigo_postal=form.cleaned_data['codigo_postal'],
-                    usuario_premium = form.cleaned_data['usuario_premium']
+                    usuario_premium=form.cleaned_data['usuario_premium']
                 )
+
                 user.first_name = form.cleaned_data['first_name']
                 user.last_name = form.cleaned_data['last_name']
                 user.email = form.cleaned_data['email']
@@ -38,9 +39,9 @@ def register(request):
 
                 message = 1
                 form = NewRegisterForm()
-            
+
             except:
-                    message = 3
+                message = 3
         else:
             message = 2
     else:
@@ -49,10 +50,10 @@ def register(request):
     context = {
         'form': form,
         'message': message,
-    
     }
 
     return render(request, "register.html", context=context)
+
 
 
 def login(request):

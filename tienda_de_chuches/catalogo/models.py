@@ -1,11 +1,11 @@
 from django.db import models
-from django.contrib.auth.models import User
 from django.urls import reverse 
+from django.contrib.auth.models import User
 
 
 class Cliente(models.Model):
     id_user = models.OneToOneField(User,on_delete=models.SET_NULL,null=True)
-    telefono = models.IntegerField()
+    telefono = models.CharField(max_length=15)
     direccion = models.CharField(max_length=250)
     ciudad = models.CharField(max_length=250)
     codigo_postal=models.CharField(max_length=250)
